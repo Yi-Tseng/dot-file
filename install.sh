@@ -6,9 +6,11 @@ if ! grep -q 'export PATH="$HOME/bin:$PATH"' ~/.bashrc; then
     echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 fi
 
+rm -rf /tmp/git
 git clone https://github.com/git/git.git --depth=1 /tmp/git
 make -C /tmp/git/contrib/diff-highlight
-cp /tmp/git/contrib/diff-highlight/diff-highlight bin/
+cp /tmp/git/contrib/diff-highlight/diff-highlight "$HOME/bin/diff-highlight"
+chmod +x "$HOME/bin/diff-highlight"
 rm -rf /tmp/git
 
 # Install k9s 0.50.4
