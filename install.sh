@@ -33,6 +33,7 @@ cp bashrc ~/.bashrc
 source "$HOME/.bashrc"
 cp tool-versions ~/.tool-versions
 cp vimrc ~/.vimrc
+cp gitconfig ~/.gitconfig
 
 mkdir -p /home/seu/.kube/configs
 touch /home/seu/.kube/config
