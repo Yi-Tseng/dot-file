@@ -34,3 +34,10 @@ source "$HOME/.bashrc"
 cp tool-versions ~/.tool-versions
 cp vimrc ~/.vimrc
 
+mkdir -p /home/seu/.kube/configs
+touch /home/seu/.kube/config
+
+kubectl krew install ctx
+kubectl krew install ns
+kubectl krew install konfig
+
