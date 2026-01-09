@@ -13,10 +13,9 @@ cp /tmp/git/contrib/diff-highlight/diff-highlight "$HOME/bin/diff-highlight"
 chmod +x "$HOME/bin/diff-highlight"
 rm -rf /tmp/git
 
-# Install k9s 0.50.4
-wget https://github.com/derailed/k9s/releases/download/v0.50.4/k9s_linux_amd64.deb -O /tmp/k9s.deb
-sudo dpkg -i /tmp/k9s.deb
-rm -f /tmp/k9s.deb
+# Install k9s and kubectl
+brew install derailed/k9s/k9s
+brew install kubectl
 
 # Install krew
 pushd "$(mktemp -d)"
@@ -35,8 +34,8 @@ cp tool-versions ~/.tool-versions
 cp vimrc ~/.vimrc
 cp gitconfig ~/.gitconfig
 
-mkdir -p /home/seu/.kube/configs
-touch /home/seu/.kube/config
+mkdir -p /$HOME/.kube/configs
+touch /$HOME/.kube/config
 
 kubectl krew install ctx
 kubectl krew install ns
