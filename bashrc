@@ -138,35 +138,9 @@ function reload-k8s-configs() {
 reload-k8s-configs
 export PATH="/Users/tsengyi/.local/bin:$PATH"
 
-function eks-config() {
-    if [ -z "$1" ]; then
-        echo "Usage: eks-config [cluster name]"
-        return
-    fi
-    rm -rf "$HOME/.kube/configs/$1.yaml"
-    aws eks update-kubeconfig --name "$1" --kubeconfig "$HOME/.kube/configs/$1.yaml"
-    reload-k8s-configs
-}
 function jwtd() {
     if [[ -x $(command -v jq) ]]; then
          jq -R 'split(".") | .[0],.[1] | @base64d | fromjson' <<< "${1}"
          echo "Signature: $(echo "${1}" | awk -F'.' '{print $3}')"
     fi
-}
-function cluster-tunnel() {
-  local env_name=$1
-  local ssh_key_file=$2
-  local checked="true"
-  [[ -z "$env_name" ]] && echo "usage cluster-tunnel [env_name] [jump host ssh key file]"
-  [[ -z "$ssh_key_file" ]] && echo "usage cluster-tunnel [env_name] [jump host ssh key file]"
-  [[ ! -f "$ssh_key_file" ]] && echo "ssh key file not found"
-
-  local jumphost_ip=$(aws ec2 describe-instances --filter "Name=tag:Name,Values=$env_name-jump" --query 'Reservations[0].Instances[0
-].PublicIpAddress' | sed 's/"//g')
-  [[ "$jumphost_ip" == "null" ]] && echo "No jumphost found"
-  local vpc_cidr=$(aws ec2 describe-vpcs --filter "Name=tag:Name,Values=$env_name" --query 'Vpcs[0].CidrBlock' | sed 's/"//g')
-  if [[ "$checked" == "true" ]]; then
-  echo jump to $jumphost_ip for CIDR $vpc_cidr
-    sshuttle -r "ubuntu@$jumphost_ip" "$vpc_cidr" --ssh-cmd "ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=120 -i $ssh_key_file -o ProxyCommand='nc -X 5 -x proxy-us.intel.com:1080 %h %p'"
-  fi
 }
