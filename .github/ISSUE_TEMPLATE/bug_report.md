@@ -1,10 +1,10 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
+description: Report a bug or unexpected behavior
+about: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: []
 ---
 
 **Describe the bug**
